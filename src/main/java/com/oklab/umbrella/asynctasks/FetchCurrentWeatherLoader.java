@@ -34,6 +34,10 @@ public class FetchCurrentWeatherLoader extends AsyncTaskLoader<WeatherDataEntry>
         String uri = getContext().getString(R.string.uri);
         HTTPConnectionService fetchHTTPConnectionService = new HTTPConnectionService(uri, this.getContext());
         HTTPConnectionResult result = fetchHTTPConnectionService.establishConnection();
+        if (result == null) {
+            Log.e(TAG, "Failed to establish connection");
+            return null;
+        }
         Log.v(TAG, "responseCode = " + result.getResponceCode());
         Log.v(TAG, "result = " + result.getResult());
         try {

@@ -24,15 +24,18 @@ import com.oklab.umbrella.asynctasks.FetchFutureWeatherAsyncTask;
 import com.oklab.umbrella.data.WeatherDataEntry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements FetchFutureWeatherAsyncTask.OnCWeatherDataLoadedListener {
+public class MainActivity extends AppCompatActivity implements FetchFutureWeatherAsyncTask.OnWeatherDataLoadedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String AVG = "avg";
     private static final int NUMBER_OF_FUTURE_DAYS = 5;
     public WeatherDataEntry weatherdataEntry;
     List<Double> entryList;
+    private HashMap<Integer, FetchFutureWeatherAsyncTask> activeTasks = new HashMap<>();
     private TextView windSpeed;
     private TextView tempC;
     private TextView tempF;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
     private ProgressBar tempP;
     private ProgressBar windP;
     private ImageView cloudIcon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
                     avgP.setVisibility(View.VISIBLE);
                     FetchFutureWeatherAsyncTask task = new FetchFutureWeatherAsyncTask(MainActivity.this, MainActivity.this);
                     task.execute(i);
+                    activeTasks.put(i, task);
                 }
             }
         });
@@ -115,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         String tempSettings = sharedPref.getString("temp_list", "1");
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
-        tempP.setVisibility(View.INVISIBLE);
-        windP.setVisibility(View.INVISIBLE);
+
         if (tempSettings.equals("0")) {
             tempC.setVisibility(View.INVISIBLE);
             tempF.setVisibility(View.VISIBLE);
@@ -132,19 +136,34 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         }
         windSpeed.setText(Double.toString(dataEntry.getSpeed()));
         location.setText(dataEntry.getName());
-        if(dataEntry.getCloudiness() > 50) {
+        if (dataEntry.getCloudiness() > 50) {
             cloudIcon.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             cloudIcon.setVisibility(View.INVISIBLE);
         }
 
     }
 
     @Override
-    public void OnCWeatherDataLoaded(WeatherDataEntry entry) {
-        Log.v(TAG, "entry" + entry.getTemp());
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!activeTasks.isEmpty()) {
+            Log.v(TAG, "canceling pending tasks");
+            for (Map.Entry<Integer, FetchFutureWeatherAsyncTask> e : activeTasks.entrySet()) {
+                e.getValue().cancel(true);
+            }
+            activeTasks.clear();
+        }
+    }
 
+    @Override
+    public void OnWeatherDataLoaded(WeatherDataEntry entry, int page) {
+        avgP.setVisibility(View.INVISIBLE);
+        if (entry == null) {
+            return;
+        }
+        Log.v(TAG, "entry" + entry.getTemp());
+        activeTasks.remove(page);
         entryList.add(entry.getTemp());
         Log.v(TAG, " entry size = " + entryList.size());
         if (entryList.size() == 5) {
@@ -174,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         Log.v(TAG, "avgData = " + stdDev);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String tempSettings = sharedPref.getString("temp_list", "1");
-        avgP.setVisibility(View.INVISIBLE);
+
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
         if (tempSettings.equals("0")) {
@@ -202,9 +221,9 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
                 Log.v(TAG, "dataEntry" + dataEntry.getName());
                 getLoaderManager().destroyLoader(loader.getId());
                 populateUIData(weatherdataEntry);
-                return;
             }
-            getLoaderManager().destroyLoader(loader.getId());
+            tempP.setVisibility(View.INVISIBLE);
+            windP.setVisibility(View.INVISIBLE);
         }
 
         @Override

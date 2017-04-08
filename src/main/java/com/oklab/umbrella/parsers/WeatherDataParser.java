@@ -26,11 +26,6 @@ public class WeatherDataParser {
             return null;
         }
         Log.v(TAG, "object = " + object);
-
-        String name = " ";
-        if (!object.getString("name").isEmpty()) {
-            name = object.getString("name");
-        }
         JSONObject coord = object.getJSONObject("coord");
         double lat = coord.getDouble("lat");
         double lon = coord.getDouble("lon");
@@ -45,7 +40,7 @@ public class WeatherDataParser {
         int rain3h = rain.getInt("3h");
         JSONObject clouds = object.getJSONObject("clouds");
         int cloudiness = clouds.getInt("cloudiness");
-        name = object.getString("name");
+        String name = object.getString("name");
         return new WeatherDataEntry(lon, lat, temp, pressure, humidity, speed, deg, rain3h, cloudiness, name);
     }
 }

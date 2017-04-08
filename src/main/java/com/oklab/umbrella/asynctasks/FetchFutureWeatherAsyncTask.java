@@ -23,16 +23,17 @@ import java.nio.charset.StandardCharsets;
 public class FetchFutureWeatherAsyncTask extends AsyncTask<Integer, Void, WeatherDataEntry> {
     private static final String TAG = FetchFutureWeatherAsyncTask.class.getSimpleName();
     private final Context context;
-    private FetchFutureWeatherAsyncTask.OnCWeatherDataLoadedListener listener;
+    private OnWeatherDataLoadedListener listener;
+    private int page;
 
-    public FetchFutureWeatherAsyncTask(Context context, FetchFutureWeatherAsyncTask.OnCWeatherDataLoadedListener listener) {
+    public FetchFutureWeatherAsyncTask(Context context, OnWeatherDataLoadedListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
     @Override
     protected WeatherDataEntry doInBackground(Integer... args) {
-        Integer page = args[0];
+        page = args[0];
 
         String future = context.getString(R.string.future, page);
         String uri = context.getString(R.string.base_uri, future);
@@ -58,10 +59,10 @@ public class FetchFutureWeatherAsyncTask extends AsyncTask<Integer, Void, Weathe
     @Override
     protected void onPostExecute(WeatherDataEntry entryData) {
         super.onPostExecute(entryData);
-        listener.OnCWeatherDataLoaded(entryData);
+        listener.OnWeatherDataLoaded(entryData, page);
     }
 
-    public interface OnCWeatherDataLoadedListener {
-        void OnCWeatherDataLoaded(WeatherDataEntry weatherDataEntry);
+    public interface OnWeatherDataLoadedListener {
+        void OnWeatherDataLoaded(WeatherDataEntry weatherDataEntry, int page);
     }
 }
