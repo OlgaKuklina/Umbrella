@@ -53,7 +53,7 @@ public class FetchFutureWeatherAsyncTask extends AsyncTask <Integer, Void, Weath
             return new WeatherDataParser().parse(jsonObject);
 
         } catch (Exception e) {
-            Log.e(TAG, "Get contributions failed", e);
+            Log.e(TAG, "Get data failed", e);
             return null;
         }
     }

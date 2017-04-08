@@ -3,6 +3,7 @@ package com.oklab.umbrella.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -27,6 +28,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements FetchFutureWeatherAsyncTask.OnCWeatherDataLoadedListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String AVG = "avg";
     private static final int NUMBER_OF_FUTURE_DAYS = 5;
     public WeatherDataEntry weatherdataEntry;
     List<Double> entryList;
@@ -46,8 +48,11 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Log.v(TAG, "onCreate");
         Bundle bundle = new Bundle();
         bundle.putInt("task", 1);
+        //The loader will fetch data only once and will respond with the same data
+        // upon orientation change without connecting to network.
         getSupportLoaderManager().initLoader(0, bundle, new MainActivity.WeatherLoaderCallbacks());
         windSpeed = (TextView) findViewById(R.id.wind_speed);
         tempC = (TextView) findViewById(R.id.temp_c);
@@ -95,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
 
     private void populateUIData(WeatherDataEntry dataEntry) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String tempSettings = sharedPref.getString("temp_list", "Celsius");
+        String tempSettings = sharedPref.getString("temp_list", "1");
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
         if (tempSettings.equals("0")) {
@@ -126,12 +131,27 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.v(TAG, "onSaveInstanceState ");
+        if(avg.getText()!=null) {
+            outState.putString(AVG, avg.getText().toString());
+        }
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.v(TAG, "onRestoreInstanceState " + savedInstanceState);
+        avg.setText(savedInstanceState.getString(AVG));
+    }
+
     public void populateAVG(List<Double> dataEntryList) {
         Log.v(TAG, "dataEntryList = " + dataEntryList);
         double stdDev = Utils.stddev(dataEntryList);
         Log.v(TAG, "avgData = " + stdDev);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String tempSettings = sharedPref.getString("temp_list", "Celsius");
+        String tempSettings = sharedPref.getString("temp_list", "1");
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
         if (tempSettings.equals("0")) {
