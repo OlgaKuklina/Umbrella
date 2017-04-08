@@ -16,34 +16,35 @@ import org.json.JSONObject;
  * Created by olgakuklina on 2017-04-08.
  */
 
-public class FetchCurrentWeatherLoader extends AsyncTaskLoader<WeatherDataEntry>{
-        private static final String TAG = FetchCurrentWeatherLoader.class.getSimpleName();
+public class FetchCurrentWeatherLoader extends AsyncTaskLoader<WeatherDataEntry> {
+    private static final String TAG = FetchCurrentWeatherLoader.class.getSimpleName();
 
-        public FetchCurrentWeatherLoader(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onStartLoading() {
-            super.onStartLoading();
-            forceLoad();
-        }
-        @Override
-        public WeatherDataEntry loadInBackground() {
-            String uri = getContext().getString(R.string.uri);
-            HTTPConnectionService fetchHTTPConnectionService = new HTTPConnectionService(uri, this.getContext());
-            HTTPConnectionResult result = fetchHTTPConnectionService.establishConnection();
-            Log.v(TAG, "responseCode = " + result.getResponceCode());
-            Log.v(TAG, "result = " + result.getResult());
-            try {
-                JSONObject jsonObject = new JSONObject(result.getResult());
-                return new WeatherDataParser().parse(jsonObject);
-
-            } catch (JSONException e) {
-                Log.e(TAG, "", e);
-            }
-            return null;
-        }
+    public FetchCurrentWeatherLoader(Context context) {
+        super(context);
     }
+
+    @Override
+    protected void onStartLoading() {
+        super.onStartLoading();
+        forceLoad();
+    }
+
+    @Override
+    public WeatherDataEntry loadInBackground() {
+        String uri = getContext().getString(R.string.uri);
+        HTTPConnectionService fetchHTTPConnectionService = new HTTPConnectionService(uri, this.getContext());
+        HTTPConnectionResult result = fetchHTTPConnectionService.establishConnection();
+        Log.v(TAG, "responseCode = " + result.getResponceCode());
+        Log.v(TAG, "result = " + result.getResult());
+        try {
+            JSONObject jsonObject = new JSONObject(result.getResult());
+            return new WeatherDataParser().parse(jsonObject);
+
+        } catch (JSONException e) {
+            Log.e(TAG, "", e);
+        }
+        return null;
+    }
+}
 
 

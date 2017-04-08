@@ -26,10 +26,10 @@
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.MainActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.oklab.umbrella.activities.MainActivity" />
-    </activity>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.oklab.umbrella.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

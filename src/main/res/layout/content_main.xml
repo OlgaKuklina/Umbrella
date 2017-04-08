@@ -29,16 +29,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/cloudy" />
+                    android:src="@drawable/cloudy"
+                    android:visibility="invisible"/>
 
                 <TextView
                     android:id="@+id/title"
+                    style="@style/TextPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="19dp"
-                    style="@style/TextPrimary" />
+                    android:layout_marginRight="19dp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -52,65 +53,80 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/flag"/>
+                android:src="@drawable/flag" />
+
             <TextView
                 android:id="@+id/wind"
+                style="@style/TextSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="mph"
-                style="@style/TextSecondary" />
+                android:text="mph" />
 
             <TextView
                 android:id="@+id/wind_speed"
+                style="@style/TextSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="0.51"
-                android:layout_marginRight="20dp"
-                style="@style/TextSecondary"/>
-
+                android:layout_marginRight="20dp"/>
+            <ProgressBar
+                android:id="@+id/wind_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
 
         <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp">
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="30dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/temp"/>
-        <TextView
-            android:id="@+id/temp_c"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="C°"
-            style="@style/TextSecondary"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/temp" />
+
+            <TextView
+                android:id="@+id/temp_c"
+                style="@style/TextSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="C°" />
+
             <TextView
                 android:id="@+id/temp_f"
+                style="@style/TextSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="F°"
-                android:visibility="gone"
-                style="@style/TextSecondary"/>
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="20.77"
-            android:layout_marginRight="20dp"
-            style="@style/TextSecondary"/>
-
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/temp"
+                style="@style/TextSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp" />
+            <ProgressBar
+                android:id="@+id/temp_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:indeterminate="true" />
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -123,32 +139,41 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/umbrella"/>
+                android:src="@drawable/umbrella" />
+
             <TextView
                 android:id="@+id/avg_c"
+                style="@style/TextSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Average C°"
-                style="@style/TextSecondary" />
+                android:text="Average C°" />
+
             <TextView
                 android:id="@+id/avg_f"
+                style="@style/TextSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Average F°"
-                android:visibility="gone"
-                style="@style/TextSecondary" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/avg"
+                style="@style/TextSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp" />
+            <ProgressBar
+                android:id="@+id/avg_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                style="@style/TextSecondary" />
-
+                android:indeterminate="true" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

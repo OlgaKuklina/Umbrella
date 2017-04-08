@@ -27,7 +27,7 @@ public class Utils {
         return ave;
     }
 
-    public static double celsiusToFahrenheit (double c) {
+    public static double celsiusToFahrenheit(double c) {
         return c * 1.8 + 32;
     }
 }

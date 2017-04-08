@@ -4,12 +4,8 @@ import android.util.Log;
 
 import com.oklab.umbrella.data.WeatherDataEntry;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by olgakuklina on 2017-04-08.
@@ -35,7 +31,7 @@ public class WeatherDataParser {
         if (!object.getString("name").isEmpty()) {
             name = object.getString("name");
         }
-        JSONObject   coord = object.getJSONObject("coord");
+        JSONObject coord = object.getJSONObject("coord");
         double lat = coord.getDouble("lat");
         double lon = coord.getDouble("lon");
         JSONObject weather = object.getJSONObject("weather");

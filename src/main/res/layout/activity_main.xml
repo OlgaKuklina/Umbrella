@@ -26,8 +26,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:src="@drawable/windflag"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -40,8 +40,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginRight="5dp"
-        app:layout_anchor="@id/app_bar"
         android:src="@drawable/small_umbrella"
-        app:layout_anchorGravity="bottom|end"/>
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end" />
 
 </android.support.design.widget.CoordinatorLayout>

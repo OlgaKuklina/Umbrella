@@ -3,7 +3,6 @@ package com.oklab.umbrella.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -14,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.oklab.umbrella.R;
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
     private TextView avgC;
     private TextView avg;
     private TextView avgF;
-
+    private ProgressBar avgP;
+    private ProgressBar tempP;
+    private ProgressBar windP;
+    private ImageView cloudIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +66,20 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         avg = (TextView) findViewById(R.id.avg);
         avgC = (TextView) findViewById(R.id.avg_c);
         avgF = (TextView) findViewById(R.id.avg_f);
+        avgP = (ProgressBar) findViewById(R.id.avg_progress);
+        windP = (ProgressBar) findViewById(R.id.wind_progress);
+        tempP = (ProgressBar) findViewById(R.id.temp_progress);
+        cloudIcon = (ImageView) findViewById(R.id.icon);
+        tempP.setVisibility(View.VISIBLE);
+        windP.setVisibility(View.VISIBLE);
+        avgP.setVisibility(View.INVISIBLE);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 entryList = new ArrayList<>(NUMBER_OF_FUTURE_DAYS);
                 for (int i = 1; i < 6; i++) {
+                    avgP.setVisibility(View.VISIBLE);
                     FetchFutureWeatherAsyncTask task = new FetchFutureWeatherAsyncTask(MainActivity.this, MainActivity.this);
                     task.execute(i);
                 }
@@ -103,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         String tempSettings = sharedPref.getString("temp_list", "1");
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
+        tempP.setVisibility(View.INVISIBLE);
+        windP.setVisibility(View.INVISIBLE);
         if (tempSettings.equals("0")) {
             tempC.setVisibility(View.INVISIBLE);
             tempF.setVisibility(View.VISIBLE);
@@ -118,6 +132,13 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         }
         windSpeed.setText(Double.toString(dataEntry.getSpeed()));
         location.setText(dataEntry.getName());
+        if(dataEntry.getCloudiness() > 50) {
+            cloudIcon.setVisibility(View.VISIBLE);
+        }
+        else {
+            cloudIcon.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -135,10 +156,11 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.v(TAG, "onSaveInstanceState ");
-        if(avg.getText()!=null) {
+        if (avg.getText() != null) {
             outState.putString(AVG, avg.getText().toString());
         }
     }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -152,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements FetchFutureWeathe
         Log.v(TAG, "avgData = " + stdDev);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String tempSettings = sharedPref.getString("temp_list", "1");
+        avgP.setVisibility(View.INVISIBLE);
         Log.v(TAG, "tempSettings" + tempSettings);
         Log.v(TAG, "tempSettings = " + tempSettings);
         if (tempSettings.equals("0")) {
