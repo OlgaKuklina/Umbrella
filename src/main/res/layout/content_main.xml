@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/cloudy"
+                    android:src="@drawable/umbrella"
                     android:visibility="invisible" />
 
                 <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/umbrella" />
+                android:src="@drawable/databasecloud" />
 
             <TextView
                 android:id="@+id/avg_c"
