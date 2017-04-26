@@ -11,6 +11,7 @@ The app displays the following weather conditions:
 - Wind speed.
 - An umbrella icon if the cloudiness percentage is greater than 50%.
 - Provides a button that when tapped, fetches the weather for the next 5 days, and displays the standard deviation of the temperature.
+
 The app handles configuration and orientation changes without hitting network again.
 
 Application min API Level: 22, Android 5.1 ( LOLLIPOP_MR1 ).
@@ -18,3 +19,4 @@ Application min API Level: 22, Android 5.1 ( LOLLIPOP_MR1 ).
 Used libraries
 ======
 - CommonsIO/CommonsHttpClient for accessing GitHub REST api.
+- A number of standard Android libraries.
